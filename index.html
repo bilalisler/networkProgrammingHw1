@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ağ programlama Ödev 1</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".selectionLesson").on("click",function () {
+                $.ajax({
+                    url: "http://localhost/AgProgramlamaOdev/getLessonData.php?lessonId=1",
+                    method: "GET",
+                    success: function (response) {
+                        response = JSON.parse(response);
+
+                        $("#lessonCode").val(response.lessonCode);
+                        $("#lessonName").val(response.lessonName);
+                        $("#lessonDescription").html(response.lessonDescription);
+                    }
+                });
+            });
+
+            $("#lessonCode").on("keyup",function () {
+                var newData = $(this).val();
+                 $.ajax({
+                    url: "http://localhost/AgProgramlamaOdev/setLessonData.php?lessonId=1&columnName=lessonCode&newData="+newData,
+                    method: "POST",
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+            $("#lessonName").on("keyup",function () {
+                var newData = $(this).val();
+                 $.ajax({
+                    url: "http://localhost/AgProgramlamaOdev/setLessonData.php?lessonId=1&columnName=lessonName&newData="+newData,
+                    method: "GET",
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+            $("#lessonDescription").on("keyup",function () {
+                var newData = $(this).val();
+                 $.ajax({
+                    url: "http://localhost/AgProgramlamaOdev/setLessonData.php?lessonId=1&columnName=lessonDescription&newData="+newData,
+                    method: "GET",
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+            });
+
+            $("#showXML").on("click",function () { 
+                 $.ajax({
+                    url: "http://localhost/AgProgramlamaOdev/getLessonData.php?lessonId=1&returnType=xml",
+                    method: "GET",
+                    success: function (response) {
+                        $("#codedData").html(response);
+                    }
+                });
+            });
+            $("#showJSON").on("click",function () { 
+                 $.ajax({
+                    url: "http://localhost/AgProgramlamaOdev/getLessonData.php?lessonId=1",
+                    method: "GET",
+                    success: function (response) { 
+                        $("#codedData").html(response);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="row">
+    <div class="container">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Sıra No</th>
+                    <th>Ders Kodu</th>
+                    <th>Ders Adı</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>0</td>
+                    <td>BSM 103</td>
+                    <td>Programlamaya Giriş</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>BSM 201</td>
+                    <td><a href="javascript:void(0);" class="selectionLesson">Elektrik Devre Temelleri</a></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>BSM 205</td>
+                    <td>Web Programlama</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>BSM 309</td>
+                    <td>İşletim Sistemleri</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>BSM 458</td>
+                    <td>Ağ Programlama</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="container">
+        <form class="">
+            <div class="form-group">
+                <label for="lessonCode" class="col-sm-2 control-label">
+                    <kbd>Ders Kodu</kbd>
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="lessonCode" placeholder="Ders Kodu">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lessonName" class="col-sm-2 control-label">
+                    <kbd>Ders Adı</kbd>
+                </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="lessonName" placeholder="Ders Adı">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lessonDescription" class="col-sm-2 control-label">
+                    <kbd>Ders Içerik</kbd>
+                </label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="lessonDescription" id="lessonDescription" cols="128" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-10">
+                    <a href="javascript:void(0);" id="showXML" class="btn btn-default">XML Göster</a>
+                    <a href="javascript:void(0);" id="showJSON" class="btn btn-default">JSON Göster</a> 
+                </div>
+                <div class="row">
+                    <b>Kodlanmış Veri</b>
+                    <br>
+                    <textarea id="codedData" class="form-control" cols="128" rows="4"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
